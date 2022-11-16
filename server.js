@@ -6,30 +6,26 @@ dotevn.config()
 
 const app = express()
 
-// built in middleware - express.static
+// built in middleware - express.static (gives access to public folder)
 app.use(express.static('public'))
-// body-parser must go before CRUD handlers/routes
+
 //urlencoded method tells body-parser to extract data from the <form> element and add them to the body property in the request object
 app.use(bodyParser.urlencoded({ extended: true })) 
 app.use(bodyParser.json())
 
 app.set('view engine', 'ejs')
 
-// view is name of file rendering, file MUST be placed in views folder
-// locals is the data passed into the file
-// res.render(view, locals)
-
+// connect to MongoDB through the MongoClient's connect method
 let connectionString = process.env.MONGODB_URI
 
-
-// connect to MongoDB through the MongoClient's connect method
 MongoClient.connect(connectionString)
     .then(client => {
         console.log('connected to database')
-        // naming my database
+        // naming database
         const db = client.db('star-wars-quotes')
         const quotesCollection = db.collection('quotes')
 
+        // create
         app.post('/quotes', (req, res) => {
             quotesCollection.insertOne(req.body)
             .then(result => {
@@ -39,6 +35,7 @@ MongoClient.connect(connectionString)
             .catch(error => console.error(error))
         })
 
+        // read
         app.get('/', (req, res) => {
             db.collection('quotes').find().toArray()
             .then(results => {
@@ -46,9 +43,9 @@ MongoClient.connect(connectionString)
                 res.render('index.ejs', { quotes: results })
             }) 
             .catch(error => console.error(error))
-            
         })
 
+        // update
         app.put('/quotes', (req, res) => {
             quotesCollection.findOneAndUpdate(
                 { name: 'test5' },
@@ -66,6 +63,7 @@ MongoClient.connect(connectionString)
             .catch(error => console.error(error))
         })
 
+        // delete
         app.delete('/quotes', (req, res) => {
             quotesCollection.deleteOne(
                 { name: req.body.name }
