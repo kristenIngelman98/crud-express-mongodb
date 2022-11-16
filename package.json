@@ -1,0 +1,30 @@
+{
+  "name": "crud-express-mongodb",
+  "version": "1.0.0",
+  "description": "tutorial from: https://zellwk.com/blog/crud-express-mongodb/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristenIngelman98/crud-express-mongodb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristenIngelman98/crud-express-mongodb/issues"
+  },
+  "homepage": "https://github.com/kristenIngelman98/crud-express-mongodb#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongodb": "^4.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
