@@ -4,17 +4,20 @@ const MongoClient = require('mongodb').MongoClient
 const dotevn = require('dotenv')
 dotevn.config()
 
-
 const app = express()
 
+// built in middleware - express.static
+app.use(express.static('public'))
 // body-parser must go before CRUD handlers/routes
 //urlencoded method tells body-parser to extract data from the <form> element and add them to the body property in the request object
 app.use(bodyParser.urlencoded({ extended: true })) 
+app.use(bodyParser.json())
+
 app.set('view engine', 'ejs')
 
 // view is name of file rendering, file MUST be placed in views folder
 // locals is the data passed into the file
-res.render(view, locals)
+// res.render(view, locals)
 
 let connectionString = process.env.MONGODB_URI
 
@@ -40,9 +43,31 @@ MongoClient.connect(connectionString)
             db.collection('quotes').find().toArray()
             .then(results => {
                 console.log(results)
+                res.render('index.ejs', { quotes: results })
             }) 
             .catch(error => console.error(error))
+            
         })
+
+        app.put('/quotes', (req, res) => {
+            quotesCollection.findOneAndUpdate(
+                { name: 'kristen' },
+                {
+                    $set: {
+                        name: req.body.name,
+                        quote: req.body.quote
+                    }
+                },
+                {
+                    upsert: true
+                }
+            )
+            .then(result => {
+                console.log(result)
+            })
+            .catch(error => console.error(error))
+        })
+
     })
     .catch(error => console.error(error))
 

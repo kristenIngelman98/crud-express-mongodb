@@ -1,0 +1,48 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Star Wars Quote App</title>
+</head>
+
+<body>
+    <h1>May Node and Express be with you.</h1>
+
+    <form action="/quotes" method="POST">
+        <input type="text" placeholder="name" name="name" />
+        <input type="text" placeholder="quote" name="quote" />
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Quotes</h2>
+    <ul class="" quotes>
+        <!-- loop through quotes -->
+        <% for(let i=0; i < quotes.length; i++) { %>
+            <li class="quote">
+                <!-- output name from the iterated quote obj -->
+                <span>
+                    <%= quotes[i].name %>
+                </span>:
+                <!-- output quote from the iterated quote obj -->
+                <span>
+                    <%= quotes[i].quote %>
+                </span>
+            </li>
+
+
+            <% } %>
+    </ul>
+
+    <div>
+        <h2>Darth Vader invades!</h2>
+        <p>
+          Replace first Yoda's quote with a quote written by Darth Vader
+        </p>
+        <button id="update-button">Replace Yoda's quote</button>
+      </div>
+      <script src="/main.js"></script>
+</body>
+
+</html>
