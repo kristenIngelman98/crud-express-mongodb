@@ -51,7 +51,7 @@ MongoClient.connect(connectionString)
 
         app.put('/quotes', (req, res) => {
             quotesCollection.findOneAndUpdate(
-                { name: 'kristen' },
+                { name: 'test5' },
                 {
                     $set: {
                         name: req.body.name,
@@ -62,26 +62,23 @@ MongoClient.connect(connectionString)
                     upsert: true
                 }
             )
-            .then(result => {
-                console.log(result)
-            })
+            .then(result => res.json('Success!'))
             .catch(error => console.error(error))
         })
 
+        app.delete('/quotes', (req, res) => {
+            quotesCollection.deleteOne(
+                { name: req.body.name }
+            )
+            .then(result => {
+                if (result.deletedCount === 0) {
+                    return res.json('No quote to delete')
+                }
+                res.json("Deleted Darth Vader's quote")
+            })
+            .catch(error => console.error(error))
+        })
     })
-    .catch(error => console.error(error))
-
-
-        // // routes
-        // app.get('/', function (req, res) {
-        //     // __dirname is the current directory
-        //     res.sendFile(__dirname + '/index.html')
-        // })
-        
-        // app.post('/quotes', (req, res) => {
-        //     console.log(req.body)
-        // })
-
 
 app.listen(3000, function() {
     console.log('listening on port 3000')
